@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Öğretmen Paneli</title>
+</head>
+<body>
+  <h2>Öğrencilerin Not Listesi</h2>
+  <div id="ogrenciListesi"></div>
+
+  <script>
+    async function fetchStudents() {
+      try {
+        const response = await fetch("http://localhost:4569/teacher/grades");
+        const students = await response.json();
+
+        const container = document.getElementById("ogrenciListesi");
+
+        if (Array.isArray(students)) {
+          students.forEach((ogrenci) => {
+            const card = document.createElement("div");
+            card.style.border = "1px solid gray";
+            card.style.padding = "10px";
+            card.style.margin = "10px";
+            card.style.cursor = "pointer";
+
+            card.innerHTML = `
+              <strong>${ogrenci.user_name} ${ogrenci.user_surname}</strong><br>
+              Öğrenci ID: ${ogrenci.student_id} <br>
+              Sınav 1: ${ogrenci.exam1} <br>
+              Sınav 2: ${ogrenci.exam2} <br>
+              Sınav 3: ${ogrenci.exam3} <br>
+              Ortalama: ${ogrenci.average}
+            `;
+
+            card.addEventListener("click", () => {
+              window.location.href = `detail.html?student_id=${ogrenci.student_id}`;
+            });
+
+            container.appendChild(card);
+          });
+        } else {
+          container.innerText = "Öğrenci verisi alınamadı.";
+        }
+      } catch (err) {
+        console.error("Sunucu hatası:", err);
+        alert("Veri çekilemedi.");
+      }
+    }
+
+    fetchStudents();
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Öğrenci Paneli</title>
+</head>
+<body>
+  <h2>Notlarım</h2>
+  <div id="notlar">
+    <p><strong>Ad:</strong> <span id="ad"></span></p>
+    <p><strong>Soyad:</strong> <span id="soyad"></span></p>
+    <p><strong>Email:</strong> <span id="email"></span></p>
+    <p><strong>Nickname:</strong> <span id="nickname"></span></p>
+    <hr />
+    <p><strong>Sınav 1:</strong> <span id="exam1"></span></p>
+    <p><strong>Sınav 2:</strong> <span id="exam2"></span></p>
+    <p><strong>Sınav 3:</strong> <span id="exam3"></span></p>
+    <p><strong>Ortalama:</strong> <span id="average"></span></p>
+  </div>
+
+  <script>
+    const studentId = localStorage.getItem("student_id");
+
+    if (!studentId) {
+      alert("Giriş yapılmamış! Giriş sayfasına yönlendiriliyorsunuz.");
+      window.location.href = "/";
+    }
+
+    fetch(`http://localhost:4569/student/grades/${studentId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          alert("Öğrenci bilgisi bulunamadı.");
+          return;
+        }
+        document.getElementById("ad").innerText = data.user_name;
+        document.getElementById("soyad").innerText = data.user_surname;
+        document.getElementById("email").innerText = data.user_email;
+        document.getElementById("nickname").innerText = data.user_nickname;
+
+        document.getElementById("exam1").innerText = data.exam1;
+        document.getElementById("exam2").innerText = data.exam2;
+        document.getElementById("exam3").innerText = data.exam3;
+        document.getElementById("average").innerText = data.average.toFixed(2);
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Sunucuyla bağlantı kurulamadı.");
+      });
+  </script>
+</body>
+</html>

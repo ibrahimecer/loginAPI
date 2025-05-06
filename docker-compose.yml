@@ -1,0 +1,16 @@
+version: '4.4'
+
+services:
+  postgre:
+    image: postgres:17
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+      - ./sql/create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
+      - ./sql/insert.sql:/docker-entrypoint-initdb.d/insert.sql
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=login_api
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

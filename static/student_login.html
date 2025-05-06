@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Öğrenci Girişi</title>
+</head>
+<body>
+  <h2>Öğrenci Girişi</h2>
+  <form id="studentLoginForm">
+    <input type="text" id="studentIdentifier" placeholder="Email veya Nickname" required /><br />
+    <input type="password" id="studentPassword" placeholder="Şifre" required /><br />
+    <button type="submit">Giriş</button>
+  </form>
+
+  <script>
+    document.getElementById("studentLoginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const identifier = document.getElementById("studentIdentifier").value;
+      const password = document.getElementById("studentPassword").value;
+
+      const response = await fetch("http://localhost:4569/student/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email_or_nickname: identifier, password: password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.role_id === 1) {
+        localStorage.setItem("student_id", data.user_id);
+        window.location.href = "student.html";
+      } else {
+        alert(data.error || "Giriş başarısız");
+      }
+    });
+  </script>
+</body>
+</html>

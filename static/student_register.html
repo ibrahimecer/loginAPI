@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Öğrenci Kayıt</title>
+</head>
+<body>
+  <h2>Öğrenci Kayıt Formu</h2>
+  <form id="registerForm">
+    <input type="text" id="name" placeholder="Ad" required /><br />
+    <input type="text" id="surname" placeholder="Soyad" required /><br />
+    <input type="text" id="nickname" placeholder="Nickname" required /><br />
+    <input type="email" id="email" placeholder="Email" required /><br />
+    <input type="password" id="password" placeholder="Şifre" required /><br />
+    <button type="submit">Kayıt Ol</button>
+  </form>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const surname = document.getElementById("surname").value;
+      const nickname = document.getElementById("nickname").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const response = await fetch("http://localhost:4569/student/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_name: name,
+          user_surname: surname,
+          user_nickname: nickname,
+          user_email: email,
+          user_password: password,
+          role_id: 1 // öğrenci rolü
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.");
+        window.location.href = "student_login.html";
+      } else {
+        alert(data.error || "Kayıt başarısız");
+      }
+    });
+  </script>
+</body>
+</html>

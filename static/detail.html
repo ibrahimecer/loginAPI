@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Öğrenci Detay</title>
+</head>
+<body>
+  <h2>Öğrenci Detay Sayfası</h2>
+  <div id="detay"></div>
+  <button id="editBtn">Notları Düzenle</button>
+  <button id="saveBtn" style="display:none;">Kaydet</button>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentId = urlParams.get("student_id");
+    let currentData = null;
+
+    async function fetchStudent() {
+      try {
+        const response = await fetch(`http://localhost:4569/teacher/detail/${studentId}`);
+        const data = await response.json();
+        currentData = data;
+        renderStudent(data, false);
+      } catch (err) {
+        console.error(err);
+        alert("Veri alınamadı");
+      }
+    }
+
+    function renderStudent(data, isEdit) {
+      const detayDiv = document.getElementById("detay");
+      if (isEdit) {
+        detayDiv.innerHTML = `
+          <p><strong>Ad:</strong> ${data.user_name}</p>
+          <p><strong>Soyad:</strong> ${data.user_surname}</p>
+          <p><strong>Email:</strong> ${data.user_email}</p>
+          <p><strong>Nickname:</strong> ${data.user_nickname}</p>
+          <p>Sınav 1: <input type="number" id="exam1" value="${data.exam1}" /></p>
+          <p>Sınav 2: <input type="number" id="exam2" value="${data.exam2}" /></p>
+          <p>Sınav 3: <input type="number" id="exam3" value="${data.exam3}" /></p>
+          <p><em>Ortalama otomatik güncellenecek</em></p>
+        `;
+        document.getElementById("saveBtn").style.display = "inline";
+      } else {
+        detayDiv.innerHTML = `
+          <p><strong>Ad:</strong> ${data.user_name}</p>
+          <p><strong>Soyad:</strong> ${data.user_surname}</p>
+          <p><strong>Email:</strong> ${data.user_email}</p>
+          <p><strong>Nickname:</strong> ${data.user_nickname}</p>
+          <p><strong>Sınav 1:</strong> ${data.exam1}</p>
+          <p><strong>Sınav 2:</strong> ${data.exam2}</p>
+          <p><strong>Sınav 3:</strong> ${data.exam3}</p>
+          <p><strong>Ortalama:</strong> ${data.average.toFixed(2)}</p>
+        `;
+        document.getElementById("saveBtn").style.display = "none";
+      }
+    }
+
+    document.getElementById("editBtn").addEventListener("click", () => {
+      renderStudent(currentData, true);
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", async () => {
+      if (!confirm("Notları kaydetmek istediğinize emin misiniz?")) return;
+
+      const exam1 = parseInt(document.getElementById("exam1").value);
+      const exam2 = parseInt(document.getElementById("exam2").value);
+      const exam3 = parseInt(document.getElementById("exam3").value);
+
+      const response = await fetch(`http://localhost:4569/teacher/grades/${studentId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ exam1, exam2, exam3 })
+      });
+
+      const result = await response.json();
+      alert(result.message || result.error || "Güncelleme tamamlandı");
+
+      // Veriyi güncelle ve yeniden göster
+      fetchStudent();
+    });
+
+    fetchStudent();
+  </script>
+</body>
+</html>

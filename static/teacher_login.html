@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Öğretmen Girişi</title>
+</head>
+<body>
+  <h2>Öğretmen Girişi</h2>
+  <form id="teacherLoginForm">
+    <input type="text" id="teacherIdentifier" placeholder="Email veya Nickname" required /><br />
+    <input type="password" id="teacherPassword" placeholder="Şifre" required /><br />
+    <button type="submit">Giriş</button>
+  </form>
+
+  <script>
+    document.getElementById("teacherLoginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const identifier = document.getElementById("teacherIdentifier").value;
+      const password = document.getElementById("teacherPassword").value;
+
+      try {
+        const response = await fetch("http://localhost:4569/teacher/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email_or_nickname: identifier, password: password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.role_id === 2) {
+          window.location.href = "teacher.html";
+        } else {
+          alert(data.error || "Giriş başarısız");
+        }
+      } catch (err) {
+        console.error("Hata:", err);
+        alert("Sunucu hatası");
+      }
+    });
+  </script>
+</body>
+</html>
