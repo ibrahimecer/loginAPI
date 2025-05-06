@@ -13,7 +13,7 @@ Bu proje, öğretmen ve öğrenciler için ayrı giriş ve kayıt sistemi içere
 - ✅ Öğretmenler **tüm öğrencilerin notlarını görebilir**
 - ✅ Notlar **düzenlenebilir** ve **ortalama hesaplanır**
 - ✅ Öğrenci detay sayfasında ad, soyad, e-posta gibi bilgiler yer alır
-- ✅ Frontend tamamen HTML + JS ile hazırlandı (Vanilla JS)
+- ✅ Frontend tamamen HTML
 
 ---
 
@@ -32,7 +32,7 @@ Bu proje, öğretmen ve öğrenciler için ayrı giriş ve kayıt sistemi içere
 ---
 
 ## 🗂️ Proje Yapısı
-
+login_page/
 ├── config/ # Veritabanı bağlantısı
 ├── controller/ # Auth & CRUD işlemleri
 ├── models/ # GORM modelleri (User, Student, etc.)
