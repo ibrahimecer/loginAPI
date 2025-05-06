@@ -32,13 +32,16 @@ Bu proje, öğretmen ve öğrenciler için ayrı giriş ve kayıt sistemi içere
 ---
 
 ## 🗂️ Proje Yapısı
+```
 login_page/
-├── config/ # Veritabanı bağlantısı
-├── controller/ # Auth & CRUD işlemleri
-├── models/ # GORM modelleri (User, Student, etc.)
-├── routes/ # API yönlendirme
-├── static/ # HTML dosyaları (giriş, kayıt, panel)
-├── main.go # Ana uygulama
+├── config/         # Veritabanı bağlantısı
+├── controller/     # Auth & CRUD işlemleri
+├── models/         # GORM modelleri (User, Student, vb.)
+├── routes/         # API yönlendirme dosyası
+├── static/         # HTML dosyaları (giriş, kayıt, panel)
+├── main.go         # Ana uygulama dosyası
+
+```
 ---
 
 ## 🚀 Nasıl Başlatılır?
