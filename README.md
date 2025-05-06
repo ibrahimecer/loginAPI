@@ -19,13 +19,13 @@ Bu proje, öğretmen ve öğrenciler için ayrı giriş ve kayıt sistemi içere
 
 ## 🧠 Kullanılan Teknolojiler
 
-| Teknoloji | Açıklama |
-|-----------|----------|
-| **Go (Golang)** | Backend API için |
-| **Gin Framework** | HTTP router |
+| Teknoloji |
+|-----------|
+| **Go (Golang)** 
+| **Gin Framework** 
 | **GORM** | ORM (veritabanı işlemleri için) |
 | **PostgreSQL** | Veritabanı yönetimi |
-| **HTML & JavaScript** | Frontend arayüz |
+| **HTML** | Frontend arayüz |
 | **bcrypt** | Şifreleri güvenli saklama |
 | **Docker (isteğe bağlı)** | Servisleri container olarak çalıştırmak için
 
